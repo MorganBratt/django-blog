@@ -1,30 +1,20 @@
-from django.shortcuts import render
-from django.http import HttpResponse, Http404
-from blogging.models import Post, Category  
-from django.template import loader  
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+from blogging.models import Post
 
-# Create your views here.
-def stub_view(request, *args, **kwargs):
-    body = "Stub View\n\n"
-    if args:
-        body += "Args:\n"
-        body += "\n".join(["\t%s" % a for a in args])
-    if kwargs:
-        body += "Kwargs:\n"
-        body += "\n".join(["\t%s: %s" % i for i in kwargs.items()])
-    return HttpResponse(body, content_type="text/plain")
+class PostListView(ListView):
+    model = Post
+    template_name = 'blogging/list.html'
 
-def list_view(request):
-    published = Post.objects.exclude(published_date__exact=None)
-    posts = published.order_by('-published_date')
-    context = {'posts': posts}
-    return render(request, 'blogging/list.html', context)
+    def get_queryset(self):
+        # Return only published posts, ordered by the most recent publish date
+        return Post.objects.exclude(published_date__exact=None).order_by('-published_date')
 
-def detail_view(request, post_id):
-    published = Post.objects.exclude(published_date__exact=None)
-    try:
-        post = published.get(pk=post_id)
-    except Post.DoesNotExist:
-        raise Http404
-    context = {'post': post}
-    return render(request, 'blogging/detail.html', context)
+
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'blogging/detail.html'
+
+    def get_queryset(self):
+        # Ensure only published posts can be viewed in detail
+        return Post.objects.exclude(published_date__exact=None)
