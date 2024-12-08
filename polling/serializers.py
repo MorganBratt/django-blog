@@ -2,7 +2,6 @@ from rest_framework import serializers
 from polling.models import Poll
 
 
-
 # class CategorySerializer(serializers.ModelSerializer):
 #     class Meta:
 #         model = Category
@@ -19,4 +18,4 @@ from polling.models import Poll
 class PollSerializer(serializers.ModelSerializer):
     class Meta:
         model = Poll
-        fields = ['title', 'text', 'score']
+        fields = ["title", "text", "score"]
