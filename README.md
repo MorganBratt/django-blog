@@ -18,8 +18,9 @@ Software Tests
 Your submission passes the included software tests. Your submission will be graded based on the percentage of tests that pass: if your submission passes all of the tests then you will get 100% of the points for this criterion; if your submission passes half of the tests you will get 50% of the points for this criterion. Your points for this criterion will be rounded up to the nearest whole-point value.
 
 ## Notes
-``` bash
+```
 update to test heroku
++1
 
 ```
 
