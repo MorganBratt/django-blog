@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 import datetime
+import subprocess
 from django.utils import timezone
 from blogging.models import Post, Category
 
@@ -74,36 +75,20 @@ class FrontEndTestCase(TestCase):
                 self.assertEqual(resp.status_code, 404)
 
 
-#     def setUp(self):
-#         self.category = Category(name="Python")
-#         self.category.save()
-
-#     def test_category_has_name(self):
-#         self.assertEqual(self.category.name, "Python")
-
-# class FrontEngTestCase(TestCase):
-#     def setUp(self):
-#         self.category = Category(name="Python")
-#         self.category.save()
-#         self.post = Post(title="Post Title", text="Post Text")
-#         self.post.save()
-#         self.post.categories.add(self.category)
-#         self.post.save()
-
-#     def test_index(self):
-#         resp = self.client.get('/')
-#         self.assertEqual(resp.status_code, 200)
-#         self.assertTrue('Python' in resp.content.decode())
-#         self.assertTrue('Post Title' in resp.content.decode())
-#         self.assertTrue('Post Text' in resp.content.decode())
-
-#     def test_post(self):
-#         resp = self.client.get('/posts/1/')
-#         self.assertEqual(resp.status_code, 200)
-#         self.assertTrue('Post Title' in resp.content.decode())
-#         self.assertTrue('Post Text' in resp.content.decode())
-#         self.assertTrue('Python' in resp.content.decode())
-
-#     def test_no_post(self):
-#         resp = self.client.get('/posts/2/')
-#         self.assertEqual(resp.status_code, 404)
+class CodeStyleTest(TestCase):
+    def test_black_formatting(self):
+        """Test that code complies with Black formatting."""
+        try:
+            # Run Black in --check mode
+            result = subprocess.run(
+                ["black", "--check", "blogging", "django_blog", "polling"],
+                capture_output=True,
+                text=True,
+                encoding="utf-8",  # Ensure UTF-8 encoding
+            )
+            # Combine stdout and stderr safely
+            output = (result.stdout or "") + (result.stderr or "")
+            # Assert that Black returns a success code
+            self.assertEqual(result.returncode, 0, msg=output)
+        except FileNotFoundError:
+            self.fail("Black is not installed. Please install it to run this test.")
