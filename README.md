@@ -20,6 +20,12 @@ Your submission passes the included software tests. Your submission will be grad
 ## Notes
 
 ``` bash
+django-admin startapp users_and_groups
+
+```
+
+
+``` bash
 # start the server
 python manage.py  runserver
 ```

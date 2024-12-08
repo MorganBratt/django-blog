@@ -23,4 +23,5 @@ urlpatterns = [
     path('', include('blogging.urls')),
     path('polling/', include('polling.urls')),
     path('blogging/', include('blogging.urls')),
+    path('users_and_groups/', include('django_blog.users_and_groups.urls')),
 ]
